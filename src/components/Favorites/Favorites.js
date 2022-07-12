@@ -2,31 +2,32 @@ import React, { Component, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import { removeFavouriteMovie, removeMovieDetail } from "../../actions";
-import './Favorites.css';
+import Styles from "./Favorites.module.css";
+import { IoCloseSharp } from 'react-icons/io5';
 
 function ConnectedList(props) {
 
   useEffect(() => {
     props.removeMovieDetail();
-  })
+  }, [])
 
   return (
     <div>
-      <h2>Películas Favoritas</h2>
-      <ul>
+      <h2 className={Styles.title}>FAVOURITE MOVIES</h2>
+      <div className={Styles.moviesGrid}>
       {
         props.movies?.map(movie => {
           return (
-            <div key={movie.imdbID}>
-              <Link to={`/movie/${movie.imdbID}`}>
-                <li>{movie.Title}</li>
+            <div className={Styles.movie} key={movie.id}>
+              <Link className={Styles.link} to={`/movie/${movie.id}`}>
+                <img className={Styles.img} src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt="image-poster"/>
               </Link>
-              <button onClick={() => props.removeFavouriteMovie(movie.imdbID)}>X</button>
+              <button className={Styles.btn} onClick={() => props.removeFavouriteMovie(movie.id)}><IoCloseSharp/></button>
             </div>
           )
         })
         }
-      </ul>
+      </div>
     </div>
   );
 }

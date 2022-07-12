@@ -1,31 +1,51 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getMovieDetail } from '../../actions/index';
-
-import './Movie.css';
-
+import { useParams } from 'react-router-dom';
+import { getMovieDetail, removeFavouriteMovie, addFavouriteMovie } from '../../actions/index';
+import Styles from "./Movie.module.css"
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 function Movie (props) {
+  const params = useParams();
 
   useEffect(() => {
-    props.getMovieDetail(props.match.params.id);
-  })
+    props.getMovieDetail(params.id);
+  }, [])
 
   return (
-    <div className="movie-detail">
-      <h2>{props.movie.Title}</h2>
-      <p>{props.movie.Plot}</p>
+    <div className={Styles.container}>
+      <img className={Styles.img} src={`https://image.tmdb.org/t/p/original/${props.movie.backdrop_path}`} alt="image-poster"/>
+      <div className={Styles.card}>
+        <div className={Styles.titles}>
+          <h3 className={Styles.title}>{props.movie.title}</h3>
+          {
+            (props.favouritesMovies.find(m => m.id === props.movie.id)) ? 
+            <button className={Styles.score} onClick={() => props.removeFavouriteMovie(props.movie.id)}><AiFillStar/>{props.movie.vote_average}</button> :
+            <button className={Styles.score} onClick={() => props.addFavouriteMovie(props.movie)}><AiOutlineStar/>{props.movie.vote_average}</button>
+          }
+        </div>
+        <div className={Styles.elements}>
+          <img className={Styles.img2} src={`https://image.tmdb.org/t/p/original/${props.movie.poster_path}`} alt="image-poster"/>
+          <div className={Styles.subElements}>
+            <p>{props.movie.overview}</p>
+            <p>Genres: 
+              {props.movie.genres?.map((el, index) => index === props.movie.genres.length-1 ? ` ${el.name}` : ` ${el.name},`)}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    movie: state.movieDetails
+    movie: state.movieDetails,
+    favouritesMovies: state.favouritesMovies
   }
 }
 
-export default connect (mapStateToProps, { getMovieDetail })(Movie);
+export default connect (mapStateToProps, { getMovieDetail, removeFavouriteMovie, addFavouriteMovie })(Movie);
 
 
 // CLASS COMPONENT
