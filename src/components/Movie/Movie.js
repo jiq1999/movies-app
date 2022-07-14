@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getMovieDetail, removeFavouriteMovie, addFavouriteMovie } from '../../actions/index';
+import { Link, useParams } from 'react-router-dom';
+import { getMovieDetail, removeFavouriteMovie, addFavouriteMovie, getMovieTrailer } from '../../actions/index';
 import Styles from "./Movie.module.css"
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
@@ -10,6 +10,7 @@ function Movie (props) {
 
   useEffect(() => {
     props.getMovieDetail(params.id);
+    props.getMovieTrailer(params.id);
   }, [])
 
   return (
@@ -27,6 +28,12 @@ function Movie (props) {
         <div className={Styles.elements}>
           <img className={Styles.img2} src={`https://image.tmdb.org/t/p/original/${props.movie.poster_path}`} alt="image-poster"/>
           <div className={Styles.subElements}>
+            {
+              props.movieTrailer ?
+              <a className={Styles.ytElement} href={`https://www.youtube.com/embed/${props.movieTrailer.key}?autoplay=1`} target="_blank" rel="noopener">
+                <button className={Styles.ytButton}>PLAY TRAILER</button>
+              </a> : null
+            }
             <p>{props.movie.overview}</p>
             <p>Genres: 
               {props.movie.genres?.map((el, index) => index === props.movie.genres.length-1 ? ` ${el.name}` : ` ${el.name},`)}
@@ -41,11 +48,12 @@ function Movie (props) {
 const mapStateToProps = (state) => {
   return {
     movie: state.movieDetails,
-    favouritesMovies: state.favouritesMovies
+    favouritesMovies: state.favouritesMovies,
+    movieTrailer: state.movieTrailer
   }
 }
 
-export default connect (mapStateToProps, { getMovieDetail, removeFavouriteMovie, addFavouriteMovie })(Movie);
+export default connect (mapStateToProps, { getMovieDetail, removeFavouriteMovie, addFavouriteMovie, getMovieTrailer })(Movie);
 
 
 // CLASS COMPONENT

@@ -61,3 +61,13 @@ export function getComingSoon () {
     });
   }
 }
+
+export function getMovieTrailer (idMovie) {
+  return function(dispatch) {
+    fetch(`https://api.themoviedb.org/3/movie/${idMovie}/videos?api_key=${API_KEY}&language=en-US`)
+    .then(response => response.json())
+    .then(data => {
+      dispatch({ type: "GET_MOVIE_TRAILER", payload: data })
+    });
+  }
+}

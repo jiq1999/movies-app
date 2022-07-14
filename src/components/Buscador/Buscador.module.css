@@ -38,7 +38,8 @@
 }
 
 .formContainer button:hover {
-    background-color: #91d1ed;
+    background-color: #64b9de;
+    box-shadow: 0 5px 20px rgba(100, 185, 222, 0.2);
     cursor: pointer;
 }
 

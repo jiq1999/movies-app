@@ -18,6 +18,7 @@
   display: flex;
   justify-content: space-around;
   margin: 30px;
+  gap: 20px;
 }
 
 .title {
@@ -54,6 +55,29 @@
   display: flex;
   flex-direction: column;
   margin: 30px;
+}
+
+.ytElement {
+  width: 120px;
+  height: 40px;
+}
+
+.ytButton {
+  width: 120px;
+  height: 40px;
+  font-size: 15px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 3px;
+  background-color: #52BBE8;
+  color: #fff;
+}
+
+.ytButton:hover {
+  background-color: #64b9de;
+  box-shadow: 0 5px 20px rgba(100, 185, 222, 0.2);
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 1250px) {
@@ -118,5 +142,10 @@
     position: absolute;
     opacity: 0.3;
     object-fit: cover;
+  }
+
+  .ytElement {
+    align-self: center;
+    margin-bottom: 25px;
   }
 }

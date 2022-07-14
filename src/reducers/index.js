@@ -4,7 +4,8 @@ const initialState = {
   movieDetails : {},
   trending: {},
   topRated: {},
-  comingSoon: {}
+  comingSoon: {},
+  movieTrailer: ""
 }
 
 export default function rootReducer (state = initialState, action) {
@@ -48,6 +49,11 @@ export default function rootReducer (state = initialState, action) {
       return {
         ...state,
         comingSoon: action.payload.results.slice(0, 10)
+      }
+    case "GET_MOVIE_TRAILER":
+      return {
+        ...state,
+        movieTrailer: action.payload.results.find(data => data.type === "Trailer")
       }
     default:
       return state
